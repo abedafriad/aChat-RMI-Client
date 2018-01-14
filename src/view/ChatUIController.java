@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -141,11 +142,16 @@ public class ChatUIController implements Initializable {
                 alert(actionEvent, Alert.AlertType.ERROR, "IP Error..", "You need to type an IP@.");
                 return;
             }
+
             try {
                 client = new ChatClient(name.getText());
+                server = (ChatServerInt) Naming.lookup("rmi://" + ip.getText() + ":1099/acg");
+                if (!checkUser(name.getText(), server.getConnected())) {
+                    alert(actionEvent, Alert.AlertType.ERROR, "Name Error..", "This name is already taken, Change It!.");
+                    return;
+                }
                 label.setText(name.getText());
                 client.setCuic(this);
-                server = (ChatServerInt) Naming.lookup("rmi://" + ip.getText() + ":1099/acg");
                 server.login(client);
                 updateUsers(server.getConnected());
                 connect.setText("DISCONNECT");
@@ -192,7 +198,6 @@ public class ChatUIController implements Initializable {
     }
 
     public void updateUsers(Vector v) {
-
         if (v != null) {
             JFXTreeTableColumn column = (JFXTreeTableColumn) tableView.getColumns().get(0);
             for (int i = 0; i < v.size(); i++) {
@@ -206,8 +211,24 @@ public class ChatUIController implements Initializable {
                 }
             }
         }
-        
 //        lst.setModel(listModel);
+    }
+
+    public boolean checkUser(String name, Vector v) {
+        if (v != null) {
+            for (int i = 0; i < v.size(); i++) {
+                try {
+                    String tmp;
+                    tmp = ((ChatClientInt) v.get(i)).getName();
+                    if (name.equals(tmp)) {
+                        return false;
+                    }
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ChatUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return true;
     }
 
     public void writeMsg(String st) {
@@ -220,7 +241,7 @@ public class ChatUIController implements Initializable {
 
     /*/*******************************************************
     Side Menu Controls And Methods
-    */
+     */
     HamburgerSlideCloseTransition transition;
 
     public void moveHamburger() {
