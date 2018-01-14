@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="sidePane" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="159.0" style="-fx-background-color: #303248;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+      
+        <ImageView fx:id="img" fitHeight="106.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
+        <Label prefHeight="38.0" prefWidth="160.0" text="Connected Users..." textAlignment="CENTER" textFill="#ababab">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <JFXTreeTableView fx:id="table" accessibleText="TABLE" prefHeight="324.0" prefWidth="159.0" showRoot="false" style="-fx-background-color: #303248;" />
+        <JFXButton fx:id="disconnect" accessibleText="M1" prefHeight="73.0" prefWidth="159.0" ripplerFill="#ff4040" style="-fx-background-color: #533;" stylesheets="@madena.css" text="Disconnect" textFill="#eeeeee" />
+        <JFXButton fx:id="exit" accessibleText="M0" prefHeight="70.0" prefWidth="159.0" ripplerFill="#ff4040" style="-fx-background-color: #333;" stylesheets="@madena.css" text="Exit" textFill="#eeeeee" />
+    </children>
+</VBox>
